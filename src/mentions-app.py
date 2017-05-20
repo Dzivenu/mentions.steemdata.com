@@ -20,8 +20,7 @@ def hello_world():
 
 @app.route('/health')
 def health():
-    """ Show the difference between last synced block and head state. """
-    return health_check(mongo)
+    return []
 
 
 if __name__ == '__main__':
