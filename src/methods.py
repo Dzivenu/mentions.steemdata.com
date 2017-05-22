@@ -32,12 +32,15 @@ def route(mongo, query):
         if query.find('/') > -1:
             # find backlinks
             author, permlink = resolve_identifier(query)
-            url = "https://steemit.com/...?"
-            conditions['json_metadata.???'] = url
+            p = mongo.db['Posts'].find_one({'author': author, 'permlink': permlink})
+            if not p:
+                return []
+            url = "https://steemit.com/%s" % p.get('url')
+            conditions['json_metadata.links'] = url
             results = perform_query(mongo, conditions=conditions)
 
             # filter out posts that link more than 10 things
-            return [x for x in results if len(x['json_metadata']['??']) < 10]
+            return [x for x in results if len(x['json_metadata']['links']) < 10]
         else:
             # find user mentions
             account = query.strip('@')
