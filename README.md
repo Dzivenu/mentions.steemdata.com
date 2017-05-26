@@ -1,5 +1,5 @@
-## WIP
-This project is under **active** development.
+## Mentions App
+This app allows you to search for posts from steemit.com
 
 ## Example
-![](https://i.gyazo.com/bdbbd913ac84353a7c1423cd2536dda4.png)
+![](http://i.imgur.com/JqhGlmf.png)
