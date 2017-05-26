@@ -4,7 +4,7 @@ from flask import Flask, render_template
 from flask_misaka import Misaka
 from flask_pymongo import PyMongo
 
-from methods import perform_query
+from methods import route
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
@@ -18,15 +18,17 @@ md_features = ['autolink', 'fenced_code', 'underline', 'highlight', 'quote',
 md_features = {x: True for x in md_features}
 Misaka(app, **md_features)
 
+
 @app.route('/')
 def hello_world():
-    results = perform_query(mongo, search='furion python', sort_by='payout')
-    return render_template('index.html', results=results)
+    # results = perform_query(mongo, search='furion python', sort_by='payout')
+    return render_template('index.html')
 
 
-@app.route('/health')
-def health():
-    return []
+@app.route('/find/<string:query>', methods=['GET'])
+def find(query):
+    results = route(mongo, query)
+    return render_template('find.html', results=results)
 
 
 @app.template_filter('humanDate')

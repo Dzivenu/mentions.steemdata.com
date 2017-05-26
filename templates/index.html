@@ -7,7 +7,6 @@
 
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/static/css/post.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
 </head>
 <body>
@@ -15,72 +14,69 @@
 <!-- NAVBAR -->
 <div class="ui menu">
     <div class="header item">SteemData Mentions</div>
-    <a class="item">Home</a>
-    <div class="item">
-        <div class="ui action left icon input">
-            <i class="search icon"></i>
-            <input type="text" placeholder="Search">
-            <button class="ui button">Submit</button>
-        </div>
-    </div>
+    {#    <a href="https://phist.steemdata.com" class="item">Post History</a>#}
+    {#    <a href="https://steemdata.com" class="item">More Apps</a>#}
     <div class="right menu">
-        <a class="item">by @furion</a>
+        <a href="https://steemit.com/@furion" class="item">by @furion</a>
     </div>
 </div>
 
 
 <div class="ui container">
 
-    {% for result in results %}
-        {#        <div class="ui segment">#}
-        {#            <h2 class="ui left floated header"></h2>#}
-        {#            <div class="ui clearing divider"></div>#}
-        {#            <p></p>#}
-        {#        </div>#}
-
-        <div class="ui segment">
-            <h2 class="ui left floated header">{{ result.title }}</h2>
-            <div class="uis clearing divider"></div>
-            <div class="ui relaxed divided items">
-
-                <div class="item">
-                    <div class="content">
-                        <img src="https://img.steemconnect.com/@{{ result.author }}?s=100"
-                             class="ui circular avatar image">
-                        @{{ result.author }}
-                        <div class="description">
-                            <span class="Post">
-                                {{ result.body|markdown }}
-                            </span>
-                        </div>
-
-                        <div class="meta">
-                            <a>Created on {{ result.created|humanDate }}</a>
-                        </div>
-                        <div class="extra">
-                            {% for tag in result.json_metadata.tags %}
-                                <div class="ui label">{{ tag }}</div>
-                            {% endfor %}
-                        </div>
-
-
-                    </div>
-
-                </div>
+    <div class="ui one column stackable center aligned page grid">
+        <div class="column twelve wide">
+            <br>
+            <br>
+            <img src="https://i.imgur.com/lwp5Oay.jpg" alt="">
+            <br>
+            <br>
+            <div class="ui action input massive">
+                <input type="text" placeholder="Search...">
+                <button class="ui icon button massive">
+                    <i class="search icon"></i>
+                </button>
             </div>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <table class="ui very compact table">
+                <thead>
+                <tr>
+                    <th>How does the search work?</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>You can search for posts that mention <code>@username</code></td>
+                    <td><a href="/find/@furion">try it</a></td>
+                </tr>
+                <tr>
+                    <td>You can search for posts that backlink to <a href="#">https://steemit.com/@user/post-id</a></td>
+                    <td><a href="/find/https://steemit.com/steemq/@furion/steemq-a-decentralized-video-platform-for-steem">try it</a></td>
+                </tr>
+                <tr>
+                    <td>You can search for posts that contain <code>keywords and phrases</code></td>
+                    <td><a href="/find/furion python">try it</a></td>
+                </tr>
+
+                </tbody>
+            </table>
+
         </div>
+    </div>
 
-    {% endfor %}
-
-    {% if not results %}
-        NO RESULTS
-    {% endif %}
-    <br>
-    <br>
-    <br>
+</div>
+<br>
+<br>
+<br>
 
 
-    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
 </body>
 </html>
