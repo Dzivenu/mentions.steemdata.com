@@ -66,13 +66,14 @@ def perform_query(mongo, conditions=None, search=None, sort_by='new', options=No
         '_id': 0,
         'title': 1,
         'author': 1,
-        # 'body': 1,
+        'body': 1,
         'permlink': 1,
         'identifier': 1,
         'created': 1,
         'pending_payout_value': 1,
         'total_payout_value': 1,
         'net_votes': 1,
+        'json_metadata': 1,
 
     }
 

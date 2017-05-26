@@ -1,4 +1,5 @@
 flask
+flask-api
 Flask-PyMongo
 Flask-Misaka
 funcy
