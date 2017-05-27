@@ -31,7 +31,7 @@
             <img src="https://i.imgur.com/lwp5Oay.jpg" alt="">
             <br>
             <br>
-            <div class="ui action input massive">
+            <div id='search-box' class="ui action input massive">
                 <input type="text" placeholder="Search...">
                 <button class="ui icon button massive">
                     <i class="search icon"></i>
@@ -53,17 +53,17 @@
                 <tbody>
                 <tr>
                     <td>You can search for posts that mention <code>@username</code></td>
-                    <td><a href="/find?query=@furion">try it</a></td>
+                    <td><a href="/find?q=@furion">try it</a></td>
                 </tr>
                 <tr>
-                    <td>You can search for posts that backlink to <a href="#">https://steemit.com/@user/post-id</a></td>
+                    <td>You can search for posts that backlink <a href="#">https://steemit.com/@user/post-id</a></td>
                     <td>
-                        <a href="/find?query=https://steemit.com/steemq/@furion/steemq-a-decentralized-video-platform-for-steem">try
+                        <a href="/find?q=https://steemit.com/steemq/@furion/steemq-a-decentralized-video-platform-for-steem">try
                             it</a></td>
                 </tr>
                 <tr>
                     <td>You can search for posts that contain <code>keywords and phrases</code></td>
-                    <td><a href="/find?query=furion python">try it</a></td>
+                    <td><a href="/find?q=furion python">try it</a></td>
                 </tr>
 
                 </tbody>
@@ -71,7 +71,8 @@
 
             <br>
             <p class="text-muted">
-                Powered by <a href="https://steemdata.com">SteemData</a>. Built with ♥ by <a href="https://steemit.com/@furion">@furion</a>
+                Powered by <a href="https://steemdata.com">SteemData</a>. Built with ♥ by <a
+                    href="https://steemit.com/@furion">@furion</a>
             </p>
 
         </div>
@@ -85,5 +86,29 @@
 
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script type="application/javascript">
+    $(function () {
+        // focus search on page load
+        $("#search-box input").focus();
+
+        // on search event
+        var performSearch = function () {
+            var query = $("#search-box input").val();
+            if (query.length > 0) {
+                $("#search-box").addClass('disabled');
+                window.location = "/find?q=" + query;
+            }
+        };
+        $("#search-box .button").click(function () {
+            performSearch()
+        });
+        $("#search-box input").keypress(function (e) {
+            if (e.which == 13) {
+                performSearch();
+                return false;
+            }
+        });
+    });
+</script>
 </body>
 </html>

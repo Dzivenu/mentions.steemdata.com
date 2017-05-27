@@ -1,37 +1,24 @@
-import re
 from collections import ChainMap
 
-
-def strip_comment_from_url(uri):
-    return '@%s' % uri.split('@')[-1]
-
-
-def resolve_identifier(identifier):
-    match = re.match("@?([\w\-\.]*)/([\w\-]*)", *strip_comment_from_url(identifier))
-    if not hasattr(match, "group"):
-        raise ValueError("Invalid identifier")
-    return match.group(1), match.group(2)
-
-
-def get_comment_history(mongo, author, permlink):
-    conditions = {
-        # 'account': author,
-        'author': author,
-        'type': 'comment',
-        'permlink': permlink,
-    }
-    return list(mongo['Posts'].find(conditions).sort('created', -1))
+import utils
 
 
 def despam_results(results):
     """ Remove spammy looking posts. """
+
     def _filters(result):
-        if not result.get('json_metadata'):
+        # do not remove this filter, the app requires it
+        if not result.get('json_metadata') or type(result['json_metadata']) != dict:
             return False
+
+        # filter out spam and unloved posts
         if len(result['json_metadata'].get('links', [])) > 15:
             return False
         if len(result['json_metadata'].get('users', [])) > 10:
             return False
+        if result.get('net_votes', 0) < 5:
+            return False
+
         # todo add more filters
         return True
 
@@ -46,17 +33,20 @@ def route(mongo, query):
 
         if query.find('/') > -1:
             # find backlinks
-            author, permlink = resolve_identifier(query)
-            p = mongo.db['Posts'].find_one({'author': author, 'permlink': permlink})
-            if not p:
+            identifier = utils.parse_identifier(query)
+            if not identifier:
                 return []
-            url = "https://steemit.com/%s" % p.get('url')
-            conditions['json_metadata.links'] = url
+            author, permlink = identifier
+            p = mongo.db['Posts'].find_one({'author': author, 'permlink': permlink})
+            if not p or not p.get('url'):
+                return []
+            conditions['json_metadata.links'] = "https://steemit.com{}".format(p.get('url'))
             results = perform_query(mongo, conditions=conditions)
         else:
             # find user mentions
             account = query.strip('@')
             conditions['json_metadata.users'] = account
+            conditions['author'] = {'$ne': account}  # dont show own posts
             results = perform_query(mongo, conditions=conditions)
 
     else:

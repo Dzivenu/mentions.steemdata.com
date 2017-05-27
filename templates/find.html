@@ -57,7 +57,8 @@
                         <div class="content">
                             <img src="https://img.steemconnect.com/@{{ result.author }}?s=100"
                                  class="ui circular avatar image">
-                            @{{ result.author }}
+                            @{{ result.author }} ∙ {{ result.net_votes }} votes ∙
+                            <a href="https://steemit.com/@{{ result.author }}/{{ result.permlink }}">see original</a>
                             <div class="description">
                             <span class="Post">
                                 {{ result.body|markdown }}
@@ -82,6 +83,9 @@
 
         {% endfor %}
 
+        <br>
+        <p>Showing top {{ num_results }} results.</p>
+
     {% endif %}
 </div>
 <br>
@@ -91,5 +95,10 @@
 
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+<script type="application/javascript">
+    $(function () {
+        // start here
+    });
+</script>
 </body>
 </html>

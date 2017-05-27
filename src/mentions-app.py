@@ -14,7 +14,8 @@ mongo = PyMongo(app)
 
 # enable markdown rendering
 md_features = ['autolink', 'fenced_code', 'underline', 'highlight', 'quote',
-               'math', 'superscript', 'tables', 'wrap']
+               'math', 'superscript', 'tables', 'wrap',
+               'no_html', 'smartypants']
 md_features = {x: True for x in md_features}
 Misaka(app, **md_features)
 
@@ -27,12 +28,13 @@ def hello_world():
 
 @app.route('/find', methods=['GET'])
 def find():
-    query = request.args.get('query')
+    query = request.args.get('q')
     results = despam_results(route(mongo, query))
     return render_template(
         'find.html',
         results=results,
         query=query,
+        num_results=len(results),
     )
 
 
