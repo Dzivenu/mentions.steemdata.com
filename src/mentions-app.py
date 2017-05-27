@@ -1,10 +1,10 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_misaka import Misaka
 from flask_pymongo import PyMongo
 
-from methods import route
+from methods import route, despam_results
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
@@ -25,10 +25,15 @@ def hello_world():
     return render_template('index.html')
 
 
-@app.route('/find/<string:query>', methods=['GET'])
-def find(query):
-    results = route(mongo, query)
-    return render_template('find.html', results=results)
+@app.route('/find', methods=['GET'])
+def find():
+    query = request.args.get('query')
+    results = despam_results(route(mongo, query))
+    return render_template(
+        'find.html',
+        results=results,
+        query=query,
+    )
 
 
 @app.template_filter('humanDate')

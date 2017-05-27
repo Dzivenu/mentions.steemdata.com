@@ -12,14 +12,14 @@
 <body>
 
 <!-- NAVBAR -->
-<div class="ui menu">
-    <div class="header item">SteemData Mentions</div>
-    {#    <a href="https://phist.steemdata.com" class="item">Post History</a>#}
-    {#    <a href="https://steemdata.com" class="item">More Apps</a>#}
-    <div class="right menu">
-        <a href="https://steemit.com/@furion" class="item">by @furion</a>
-    </div>
-</div>
+{#<div class="ui menu">#}
+{#    <div class="header item">SteemData Mentions</div>#}
+{#    <a href="https://phist.steemdata.com" class="item">Post History</a>#}
+{#    <a href="https://steemdata.com" class="item">More Apps</a>#}
+{#    <div class="right menu">#}
+{#        <a href="https://steemit.com/@furion" class="item">by @furion</a>#}
+{#    </div>#}
+{#</div>#}
 
 
 <div class="ui container">
@@ -53,19 +53,26 @@
                 <tbody>
                 <tr>
                     <td>You can search for posts that mention <code>@username</code></td>
-                    <td><a href="/find/@furion">try it</a></td>
+                    <td><a href="/find?query=@furion">try it</a></td>
                 </tr>
                 <tr>
                     <td>You can search for posts that backlink to <a href="#">https://steemit.com/@user/post-id</a></td>
-                    <td><a href="/find/https://steemit.com/steemq/@furion/steemq-a-decentralized-video-platform-for-steem">try it</a></td>
+                    <td>
+                        <a href="/find?query=https://steemit.com/steemq/@furion/steemq-a-decentralized-video-platform-for-steem">try
+                            it</a></td>
                 </tr>
                 <tr>
                     <td>You can search for posts that contain <code>keywords and phrases</code></td>
-                    <td><a href="/find/furion python">try it</a></td>
+                    <td><a href="/find?query=furion python">try it</a></td>
                 </tr>
 
                 </tbody>
             </table>
+
+            <br>
+            <p class="text-muted">
+                Powered by <a href="https://steemdata.com">SteemData</a>. Built with ♥ by <a href="https://steemit.com/@furion">@furion</a>
+            </p>
 
         </div>
     </div>

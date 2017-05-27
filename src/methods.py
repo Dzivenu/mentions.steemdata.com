@@ -23,8 +23,23 @@ def get_comment_history(mongo, author, permlink):
     return list(mongo['Posts'].find(conditions).sort('created', -1))
 
 
+def despam_results(results):
+    """ Remove spammy looking posts. """
+    def _filters(result):
+        if not result.get('json_metadata'):
+            return False
+        if len(result['json_metadata'].get('links', [])) > 15:
+            return False
+        if len(result['json_metadata'].get('users', [])) > 10:
+            return False
+        # todo add more filters
+        return True
+
+    return list(filter(_filters, results))
+
+
 def route(mongo, query):
-    if query.startswith('@'):
+    if query.startswith('@') or query.startswith('https://steemit.com'):
         conditions = {
             "json_metadata.app": "steemit/0.1"
         }
@@ -38,21 +53,17 @@ def route(mongo, query):
             url = "https://steemit.com/%s" % p.get('url')
             conditions['json_metadata.links'] = url
             results = perform_query(mongo, conditions=conditions)
-
-            # filter out posts that link more than 10 things
-            return [x for x in results if len(x['json_metadata']['links']) < 10]
         else:
             # find user mentions
             account = query.strip('@')
             conditions['json_metadata.users'] = account
             results = perform_query(mongo, conditions=conditions)
 
-            # filter out results with more than 10 mentions (likely spam)
-            return [x for x in results if len(x['json_metadata']['users']) < 10]
     else:
         # use mongodb text search
         results = perform_query(mongo, search=query)
-        return results
+
+    return results
 
 
 def perform_query(mongo, conditions=None, search=None, sort_by='new', options=None):
