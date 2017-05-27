@@ -17,7 +17,7 @@
     <div class="header item">SteemData Mentions</div>
     <a href="/" class="item">Home</a>
     <div class="item">
-        <div class="ui action left icon input">
+        <div id="search-box" class="ui action left icon input">
             <i class="search icon"></i>
             <input type="text" placeholder="Search" value="{{ query }}">
             <button class="ui button">Submit</button>
@@ -95,10 +95,27 @@
 
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+
 <script type="application/javascript">
     $(function () {
-        // start here
+        var performSearch = function () {
+            var query = $("#search-box input").val();
+            if (query.length > 0) {
+                $("#search-box").addClass('disabled');
+                window.location = "/find?q=" + query;
+            }
+        };
+        $("#search-box .button").click(function () {
+            performSearch()
+        });
+        $("#search-box input").keypress(function (e) {
+            if (e.which == 13) {
+                performSearch();
+                return false;
+            }
+        });
     });
 </script>
+
 </body>
 </html>

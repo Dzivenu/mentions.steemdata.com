@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <td>You can search for posts that contain <code>keywords and phrases</code></td>
-                    <td><a href="/find?q=furion python">try it</a></td>
+                    <td><a href="/find?q=decentralized video">try it</a></td>
                 </tr>
 
                 </tbody>
@@ -90,8 +90,11 @@
     $(function () {
         // focus search on page load
         $("#search-box input").focus();
+    });
+</script>
 
-        // on search event
+<script type="application/javascript">
+    $(function () {
         var performSearch = function () {
             var query = $("#search-box input").val();
             if (query.length > 0) {
@@ -110,5 +113,6 @@
         });
     });
 </script>
+
 </body>
 </html>
