@@ -1,6 +1,8 @@
 import datetime as dt
 from collections import ChainMap
 
+from toolz import thread_last
+
 import utils
 
 
@@ -19,11 +21,25 @@ def despam_results(results):
             return False
         if result.get('net_votes', 0) < 5:
             return False
+        if int(result.get('author_reputation', -1)) < 0:
+            return False
+        if int(result.get('net_rshares')) < 0:
+            return False
 
         # todo add more filters
         return True
 
-    return list(filter(_filters, results))
+    def _clean_body(result):
+        # todo sanitize non https links
+        result['body'] = result['body'].replace('steemitboard.com', 'localhost')
+        return result
+
+    return thread_last(
+        results,
+        (filter, _filters),
+        (map, _clean_body),
+        list
+    )
 
 
 def route(mongo, query):
@@ -78,6 +94,8 @@ def perform_query(mongo, conditions=None, search=None, sort_by='new', options=No
         'pending_payout_value': 1,
         'total_payout_value': 1,
         'net_votes': 1,
+        'net_rshares': 1,
+        'author_reputation': 1,
         'json_metadata': 1,
 
     }
