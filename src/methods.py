@@ -31,7 +31,8 @@ def despam_results(results):
 
     def _clean_body(result):
         # todo sanitize non https links
-        result['body'] = result['body'].replace('steemitboard.com', 'localhost')
+        if result.get('body'):
+            result['body'] = result['body'].replace('steemitboard.com', 'localhost')
         return result
 
     return thread_last(

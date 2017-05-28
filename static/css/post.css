@@ -1,5 +1,4 @@
 img {
-  width: 90%;
   max-width: 350px;
 }
 
@@ -63,10 +62,6 @@ img {
 .Post p {
   font-size: 100%;
   line-height: 150%;
-}
-.Post img {
-  width: 90%;
-  max-width: 350px;
 }
 .Post iframe {
   max-width: 100%;
