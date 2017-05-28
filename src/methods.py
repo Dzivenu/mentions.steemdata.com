@@ -1,3 +1,4 @@
+import datetime as dt
 from collections import ChainMap
 
 import utils
@@ -60,6 +61,9 @@ def perform_query(mongo, conditions=None, search=None, sort_by='new', options=No
     """ Run a query against SteemQ Posts. """
     # apply conditions, such as time constraints
     conditions = conditions or {}
+    conditions['created'] = {
+        '$gte': dt.datetime.now() - dt.timedelta(days=90),
+    }
     query = {
         **conditions,
     }
